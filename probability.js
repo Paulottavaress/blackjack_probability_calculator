@@ -8,9 +8,10 @@
 
 // Betway Classic Blackjack
 const deck = ["Ace", "Ace", "Ace", "Ace", 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, "Jack", "Jack", "Jack", "Jack", "Queen", "Queen", "Queen", "Queen", "King", "King", "King", "King"];
-const deck8 = [];
+const gameDeck = [];
 let dealersHand = [];
 let openingCard;
+let openingCardValue;
 let hand = [];
 let splitHand = [];
 let drawCard;
@@ -23,71 +24,112 @@ let double = false;
 let split = false;
 let blackJack = 0;
 
-// Creates an array with 8 decks
-for(let i = 0; i < 1; i++){
-    deck.forEach(card => {
-        deck8.push(card);
-    });
+// Pass in the number of Black Jack rounds being simulated
+numberOfRounds();
+
+function numberOfRounds(roundNumber = 1){
+    for (i = 0; i < roundNumber; i++){
+
+        // Creates a deck with the number of full decks passed in
+        createDecks();
+
+        // Dealer draws his first two cards and defines the open and closed cards
+        // 1- What deck to add the cards (no default value)
+        // 2- Number of cards to draw (1 is the default value)
+        // 3- If it is a player's or dealers's hand (player or dealer)(player is the default value)
+        drawCards(dealersHand, 2, 'dealer');
+
+        // player draws his first two cards
+        drawCards(hand, 2);
+
+        // Manipulating values for testing - temporary
+        hand.splice(0, 1, 'Ace');
+        hand.splice(1, 1, 'Ace');
+        console.log(`That is the initial hand after splice ${hand}`);
+
+        // Converting the hand cards into numbers (Ace = 1 or 11, Jack, Queen and King)
+        // 1- What deck to count the cards (no default value)
+        // 2- Number of cards to count (1 is the default value) 
+        // 3- If it is a player's or dealer's hand (player or dealer)(player is the default value)
+        handSum(hand, 2);
+
+        // Converting the dealer's open card into numbers (Ace = 1(this is set due to rules function), Jack, Queen and King)
+        // 1 - Opening card to be converted to opening card value
+        openCardValue(openingCard);
+
+        // Defines the action to be made according to basic rules in https://vocemaisrico.com/blackjack/
+        rules(hand);
+
+        // Makes the move previously defined -> parei aqui revisando essa fórmula
+        // 1- What deck to make the move (no default value)
+        nextMove(hand);
+    }
 }
 
-function drawCards(cardsNumber = 1){
+// Creates an array with 8 decks
+function createDecks(numberOfDecks = 1){
+    for(let i = 0; i < numberOfDecks; i++){
+        deck.forEach(card => {
+            gameDeck.push(card);
+        });
+    }
+}
+
+function drawCards(hand, cardsNumber = 1, deckOwner = 'player'){
     for(let i = 0; i < cardsNumber; i++){
-        drawCard = Math.abs(Math.round(Math.random()* deck8.length - 1));
-        console.log(`Array index to draw card: ${drawCard}`);
-        hand.push(deck8[drawCard]);
-        console.log(`My hand: ${hand}`);
-        deck8.splice(drawCard, 1);
-        console.log(`Deck remainder: ${deck8}`);
-        console.log(`Deck length: ${deck8.length}`);
+        drawCard = Math.abs(Math.round(Math.random()* gameDeck.length - 1));
+        hand.push(gameDeck[drawCard]);
+        gameDeck.splice(drawCard, 1);
+        if (hand.length === 1 && deckOwner === 'dealer') {
+            openingCard = hand[0];
+            console.log(`Dealer's open card is a ${openingCard}`);
+        }
         if (split === true){
-            drawCard = Math.abs(Math.round(Math.random()* deck8.length - 1));
-            console.log(`Array index to draw card: ${drawCard}`);
-            splitHand.push(deck8[drawCard]);
-            console.log(`My second hand: ${splitHand}`);
-            deck8.splice(drawCard, 1);
-            console.log(`Deck remainder: ${deck8}`);
-            console.log(`Deck length: ${deck8.length}`);
+            drawCard = Math.abs(Math.round(Math.random()* gameDeck.length - 1));
+            splitHand.push(gameDeck[drawCard]);
+            console.log(`Player's second hand: ${splitHand}`);
+            gameDeck.splice(drawCard, 1);
         }
     }
+    console.log(`The ${deckOwner}'s hand is ${hand}`);
+    //console.log(`Deck remainder: ${gameDeck}`);
+    //console.log(`Deck length: ${gameDeck.length}`);
 }
 
-// Dealer first round
-for(let i = 0; i < 2; i++){
-    drawCard = Math.abs(Math.round(Math.random()* deck8.length - 1));
-    console.log(`Array index to draw card: ${drawCard}`);
-    dealersHand.push(deck8[drawCard]);
-    console.log(`Dealer's hand: ${dealersHand}`);
-    if (dealersHand.length === 1) {
-        openingCard = deck8[drawCard];
-        console.log(`Dealer's opening card: ${openingCard}`);
+function handSum(hand, cardsNumber = 1, deckOwner = 'player', handValueSum = 0, aceCounter = 0){
+    for (i = 0; i < cardsNumber; i++){
+        if (hand[i] === 'Jack' || hand[i] === 'Queen' || hand[i] === 'King'){
+            handValue.push(10);
+            handValueSum += 10;
+        }  else if (hand[i] === 'Ace'){
+           aceCounter++;
+        } else {
+            handValue.push(hand[i]);
+            handValueSum += hand[i];
+        }
     }
-    deck8.splice(drawCard, 1);
-    console.log(`Deck remainder: ${deck8}`);
-    console.log(`Deck length: ${deck8.length}`);
+    for (i = 0; i < aceCounter; i++){
+        if (handValueSum + 11 > 21){
+            handValueSum++;
+        } else {
+            handValueSum += 11;
+        }
+    }
+    console.log(`The number of ace cards in the ${deckOwner}'s hand is ${aceCounter}`);
+    console.log(`The sum of the ${deckOwner}'s hand is ${handValueSum}`);
+    return handValueSum;
 }
 
-// My first round
-drawCards(2);
-
-
-hand.splice(0, 1, 'Ace');
-hand.splice(1, 1, 'Ace');
-console.log(hand);
-console.log(openingCard);
-
-// Points conversion
-
-handSum(hand, 2);
-
-if (openingCard === 'Jack' || openingCard === 'Queen' || openingCard === 'King'){
-    openingCardValue = 10;
-} else if (openingCard === 'Ace'){
-    openingCardValue = 1;
-} else{
-    openingCardValue = openingCard;
+function openCardValue(openingCard) {
+    if (openingCard === 'Jack' || openingCard === 'Queen' || openingCard === 'King'){
+        openingCardValue = 10;
+    } else if (openingCard === 'Ace'){
+        openingCardValue = 1;
+    } else{
+        openingCardValue = openingCard;
+    }
+    console.log(`The opening card value is ${openingCardValue}`);
 }
-
-console.log(openingCardValue);
 
 //Rules
 function rules (hand){
@@ -228,62 +270,57 @@ function rules (hand){
    };
 }
 
-
-rules(hand);
-
 // Second round
-if (stand === false) {
-    if (split === true){
-        splitHand.push(hand[0]);
-        hand.pop();
-        drawCards();
-        handSum(hand, hand.length);
-        //handSum(splitHand, 1);
-        console.log(hand);
-        console.log(splitHand);
-        rules(hand);
-        rules(splitHand);
-        if (hand[0] === 'Ace'){
-            stand = true;
-            split = false;
-        } else if ((hand[0] === 2 || hand[0] === 3)){
-
+function nextMove(hand){
+    if (stand === false) {
+        if (split === true){
+            splitHand.push(hand[0]);
+            hand.pop();
+            drawCards(hand, 1);
+            handSum(hand, hand.length);
+            //handSum(splitHand, 1);
+            console.log(hand);
+            console.log(splitHand);
+            rules(hand);
+            rules(splitHand);
+            if (hand[0] === 'Ace'){
+                stand = true;
+                split = false;
+            } else if ((hand[0] === 2 || hand[0] === 3)){
+    
+            }
+        } else if (double === true){
+            
+        } else {
+    
         }
-    } else if (double === true){
-        
-    } else {
-
     }
 }
 
-function handSum(hand, cardsNumber, handValueSum = 0, aceCounter = 0){
-    console.log(aceCounter);
-    console.log(hand);
-    console.log(handValueSum);
-    for (i = 0; i < cardsNumber; i++){
-        if (hand[i] === 'Jack' || hand[i] === 'Queen' || hand[i] === 'King'){
-            handValue.push(10);
-            handValueSum += 10;
-        }  else if (hand[i] === 'Ace'){
-           aceCounter++;
-           console.log(aceCounter);
-        } else {
-            handValue.push(hand[i]);
-            handValueSum += hand[i];
-        }
-    }
-    for (i = 0; i < aceCounter; i++){
-        console.log(handValueSum);
-        if (handValueSum + 11 > 21){
-            handValueSum++;
-        } else {
-            handValueSum += 11;
-        }
-    }
-    console.log(aceCounter);
-    console.log(handValueSum);
-}
+console.log(stand);
+dealersFinalHand(stand);
 
+console.log(handValueSum);
+console.log(dealersHandSum);
+
+// Defining dealer`s hand
+function dealersFinalHand(stand){
+    if (stand === true){
+        dealersHandSum = handSum(dealersHand, 2);
+        console.log(dealersHandSum);
+        if (dealersHandSum >= 17){
+            console.log(`The dealer's hand sum is ${dealersHandSum} so he STANDS.`);
+            return;
+        }
+    }
+} 
+
+
+
+// The winner
+function winner(){
+
+}
 
 
 
