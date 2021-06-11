@@ -37,6 +37,8 @@ let dealerMoney = 100000;
 let baseBet = 5;
 let doubleBet = baseBet * 2;
 let strongBet = baseBet * 4;
+let currentBet = baseBet;
+let blackJackBet = currentBet * 1.5;
 
 
 // Pass in the number of Black Jack rounds being simulated
@@ -109,12 +111,6 @@ function createDecks(numberOfDecks = 1){
         });
     }
 }
-
-
-
-
-
-
 
 function drawCards(hand, cardsNumber = 1, deckOwner = 'player'){
     for(let i = 0; i < cardsNumber; i++){
@@ -300,46 +296,52 @@ function rules (hand){
            blackJack++;
        }
    } else {
-       if (handValueSum <= 8){
-           console.log(`You have a sum of ${handValueSum} so HIT!`);
-       } else if (handValueSum === 9){
-           if (openingCardValue >= 3 && openingCardValue <= 6){
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
-               double = true;
-           } else {
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
-           }
-       } else if (handValueSum === 10){
-           if (openingCardValue >= 2 && openingCardValue <= 9){
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
-               double = true;
-           } else {
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
-           }
-       } else if (handValueSum === 11){
-           if (openingCardValue >= 2 && openingCardValue <= 10){
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
-               double = true;
-           } else {
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
-           }
-       } else if (handValueSum >= 12 && handValueSum <= 16){
-           if (openingCardValue >= 4 && openingCardValue <= 6){
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so STAND`);
-               stand = true;
-           } else {
-               console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
-           }
-       } else if (handValueSum >= 17 && handValueSum <= 20){
-           console.log(`You have have a sum of ${handValueSum} so STAND!`);
-           stand = true;
-       } else {
-           console.log(`You have have a sum of ${handValueSum} so BLACKJACK!!!`);
-           stand = true;
-           blackJack++;
-       }
+        recurrentRules();
    };
 }
+
+// recurrent rules
+
+    function recurrentRules (){
+        if (handValueSum <= 8){
+            console.log(`You have a sum of ${handValueSum} so HIT!`);
+        } else if (handValueSum === 9){
+            if (openingCardValue >= 3 && openingCardValue <= 6){
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
+                double = true;
+            } else {
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
+            }
+        } else if (handValueSum === 10){
+            if (openingCardValue >= 2 && openingCardValue <= 9){
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
+                double = true;
+            } else {
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
+            }
+        } else if (handValueSum === 11){
+            if (openingCardValue >= 2 && openingCardValue <= 10){
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DOUBLE`);
+                double = true;
+            } else {
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
+            }
+        } else if (handValueSum >= 12 && handValueSum <= 16){
+            if (openingCardValue >= 4 && openingCardValue <= 6){
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so STAND`);
+                stand = true;
+            } else {
+                console.log(`You have a sum of ${handValueSum} and the dealer has ${openingCard} so DRAW`);
+            }
+        } else if (handValueSum >= 17 && handValueSum <= 20){
+            console.log(`You have have a sum of ${handValueSum} so STAND!`);
+            stand = true;
+        } else {
+            console.log(`You have have a sum of ${handValueSum} so BLACKJACK!!!`);
+            stand = true;
+            blackJack++;
+        }
+    }
 
 // Second round
 function nextMove(hand, deckNumber = '1st'){
