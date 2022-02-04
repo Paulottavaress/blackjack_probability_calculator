@@ -1,24 +1,24 @@
 <template>
-    <h5>SIMULATOR</h5>
-    <div class="container">
-        <app-dealers-shoe :dealersShoe="dealersShoe" :dealersShoeLength="dealersShoeLength" />
-        <app-players-hand :playersHand="playersHand" />
-        <div class="config-area">
-            <div v-if="!isGameRunning">
+    <div class="full-width full-height relative bg-table light-color flex-row self-align-center max-width-xl pa-md">
+        <app-dealers-shoe-left :dealersShoe="dealersShoe" :dealersShoeLength="dealersShoeLength" />
+        <app-dealers-hand v-if="isGameRunning" :dealersHand="dealersHand" />
+        <app-players-hand v-if="isGameRunning" :playersHand="playersHand" />
+        <div class="flex-column full-width absolute zero-bottom">
+            <div v-if="!isGameRunning" class="flex-row text-center justify-center">
                 <p>Insert the number of decks you will be playing with:</p>
                 <input type="number" v-model="numberOfDecks">
                 <button @click="startGame">START GAME</button>
             </div>
-            <div v-else>
+            <div v-else class="flex-row text-center justify-center">
                 <div>
                     <p>Dealer's opening card:</p>
                     <input type="string" v-model="openingCard">
-                    <button @click="removeSuit(openingCard)">POP SUIT</button>
+                    <button @click="addSuitToHand('dealer', openingCard)">ADD TO DEALER'S</button>
                 </div>
                 <div>
                     <p>Your hand:</p>
-                    <input type="string" v-model="suitToBeAddedToHand">
-                    <button @click="addSuitToHand">ADD TO HAND</button>
+                    <input type="string" v-model="suitToPlayersHand">
+                    <button @click="addSuitToHand('player', suitToPlayersHand)">ADD TO PLAYER'S</button>
                 </div>
                 <div>
                     <p>Remove suit from the dealer's shoe:</p>
@@ -27,11 +27,14 @@
                 </div>
             </div>
         </div>
+        <app-dealers-shoe-right :dealersShoe="dealersShoe" :dealersShoeLength="dealersShoeLength" />
     </div>
 </template>
 
 <script>
-import DealersShoe from './DealersShoe';
+import DealersShoeLeft from './DealersShoeLeft';
+import DealersShoeRight from './DealersShoeRight';
+import DealersHand from './DealersHand';
 import PlayersHand from './PlayersHand';
 
 export default {
@@ -45,13 +48,16 @@ export default {
             dealersShoeLength: 0,
             suitToBeRemoved: '',
             playersHand: [],
-            suitToBeAddedToHand: '',
+            suitToPlayersHand: '',
+            dealersHand: [],
             openingCard: ''
         }
     },
     components: {
-        'app-dealers-shoe': DealersShoe,
-        'app-players-hand': PlayersHand
+        'app-dealers-shoe-left': DealersShoeLeft,
+        'app-dealers-shoe-right': DealersShoeRight,
+        'app-players-hand': PlayersHand,
+        'app-dealers-hand': DealersHand,
     },
     methods: {
         startGame() {
@@ -97,29 +103,25 @@ export default {
             } 
             return input;
         },
-        addSuitToHand() {
-            const suit = this.formatInput(this.suitToBeAddedToHand);
+        addSuitToHand(handOwner, suit) {
+            // Ace Jack Ace player hand
 
-            const index = this.dealersShoe.indexOf(suit);
+            const parsedSuit = this.formatInput(suit);
+
+            const index = this.dealersShoe.indexOf(parsedSuit);
 
             if (index > -1) {
-                this.playersHand.push(this.formatInput(suit));
-                this.removeSuit(this.suitToBeAddedToHand);     
+                handOwner === 'player'
+                    ? this.playersHand.push(parsedSuit)
+                    : this.dealersHand.push(parsedSuit);
+                this.removeSuit(suit);     
             }
+            console.log('playersHand', this.playersHand);
+            // console.log('dealersHand', this.dealersHand);
         }
     },
 }
 </script>
 
 <style scoped>
-    .config-area,
-    .container
-     {
-        display: flex;
-    }
-
-    .config-area div {
-        display: flex;
-        flex-direction: column;
-    }
 </style>
