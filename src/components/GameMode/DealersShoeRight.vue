@@ -1,87 +1,13 @@
 <template>
-    <div class="container">
-        <h5>DealersShoe</h5>
-        <div v-if="dealersShoe.length">
-            <div v-if="cardsSuit.ace.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.ace.length) }}
-                </div>
-                <div class="card-container">
-                    <app-card 
-                        v-for="(card, index) in cardsSuit.ace"
-                        :key="index"
-                        class="app-card" 
-                        :card="card" 
-                        :index="index + 1"
-                    />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.ace.length) }}</span>
-                </div>
-            </div>
-            <div v-if="cardsSuit.two.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.two.length) }}
-                </div>
-                <div class="card-container">
-                    <app-card 
-                        v-for="(card, index) in cardsSuit.two"
-                        :key="index"
-                        class="app-card" 
-                        :card="card" 
-                        :index="index + 1"
-                    />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.two.length) }}</span>
-                </div>
-            </div>
-            <div v-if="cardsSuit.three.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.three.length) }}
-                </div>
-                <div class="card-container">
-                    <app-card 
-                        v-for="(card, index) in cardsSuit.three"
-                        :key="index"
-                        class="app-card" 
-                        :card="card" 
-                        :index="index + 1"
-                    />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.three.length) }}</span>
-                </div>
-            </div>
-            <div v-if="cardsSuit.four.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.four.length) }}
-                </div>
-                <div class="card-container">
-                    <app-card 
-                        v-for="(card, index) in cardsSuit.four"
-                        :key="index"
-                        class="app-card" 
-                        :card="card" 
-                        :index="index + 1"
-                    />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.four.length) }}</span>
-                </div>
-            </div>
-            <div v-if="cardsSuit.five.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.five.length) }}
-                </div>
-                <div class="card-container">
-                    <app-card 
-                        v-for="(card, index) in cardsSuit.five"
-                        :key="index"
-                        class="app-card" 
-                        :card="card" 
-                        :index="index + 1"
-                    />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.five.length) }}</span>
-                </div>
-            </div>
+    <div v-if="dealersShoe.length" class="flex-column align-end self-align-center">
+        <h5>Dealers Shoe Right</h5>
+        <div class="cards-group">
             <div v-if="cardsSuit.six.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.six.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row" :class="[(extraCards(cardsSuit.six.length) >= 10) ? 'right-24' : (extraCards(cardsSuit.six.length) >= 5) ? 'right-16' : '']">
+                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.six.length) }}</span>
                     <app-card 
                         v-for="(card, index) in cardsSuit.six"
                         :key="index"
@@ -89,14 +15,14 @@
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.six.length) }}</span>
                 </div>
             </div>
             <div v-if="cardsSuit.seven.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.seven.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row" :class="[(extraCards(cardsSuit.seven.length) >= 10) ? 'right-24' : (extraCards(cardsSuit.seven.length) >= 5) ? 'right-16' : '']">
+                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.seven.length) }}</span>
                     <app-card 
                         v-for="(card, index) in cardsSuit.seven"
                         :key="index"
@@ -104,14 +30,14 @@
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.seven.length) }}</span>
                 </div>
             </div>
             <div v-if="cardsSuit.eight.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.eight.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row" :class="[(extraCards(cardsSuit.eight.length) >= 10) ? 'right-24' : (extraCards(cardsSuit.eight.length) >= 5) ? 'right-16' : '']">
+                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.eight.length) }}</span>
                     <app-card 
                         v-for="(card, index) in cardsSuit.eight"
                         :key="index"
@@ -119,14 +45,14 @@
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.eight.length) }}</span>
                 </div>
             </div>
             <div v-if="cardsSuit.nine.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.nine.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row" :class="[(extraCards(cardsSuit.nine.length) >= 10) ? 'right-24' : (extraCards(cardsSuit.nine.length) >= 5) ? 'right-16' : '']">
+                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.nine.length) }}</span>
                     <app-card 
                         v-for="(card, index) in cardsSuit.nine"
                         :key="index"
@@ -134,29 +60,29 @@
                         :card="card" 
                         :index="index + 1" 
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.nine.length) }}</span>
                 </div>
             </div>
-            <div v-if="cardsSuit.ten.length">
-                <div class="card-probability">
-                    {{ suitProb(cardsSuit.ten.length) }}
+            <div v-if="cardsSuit.ten.length  || cardsSuit.jack.length || cardsSuit.queen.length || cardsSuit.king.length">
+                <div class="text-right probability-label">
+                    {{ suitProb(cardsSuit.ten.length + cardsSuit.jack.length + cardsSuit.queen.length + cardsSuit.king.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row" :class="[(extraCards(cardsSuit.ten.length + cardsSuit.jack.length + cardsSuit.queen.length + cardsSuit.king.length) >= 10) ? 'right-24' : (extraCards(cardsSuit.ten.length + cardsSuit.jack.length + cardsSuit.queen.length + cardsSuit.king.length) >= 5) ? 'right-16' : '']">
+                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.ten.length + cardsSuit.jack.length + cardsSuit.queen.length + cardsSuit.king.length) }}</span>
                     <app-card 
-                        v-for="(card, index) in cardsSuit.ten"
+                        v-for="(card, index) in cardsSuit.worthTen"
                         :key="index"
                         class="app-card" 
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.ten.length) }}</span>
                 </div>
             </div>
+            <!--
             <div v-if="cardsSuit.jack.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.jack.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row">
                     <app-card 
                         v-for="(card, index) in cardsSuit.jack"
                         :key="index"
@@ -164,14 +90,14 @@
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.jack.length) }}</span>
+                    <span class="extra-cards-counter flex-row align-center">{{ extraCards(cardsSuit.jack.length) }}</span>
                 </div>
             </div>
             <div v-if="cardsSuit.queen.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.queen.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row">
                     <app-card 
                         v-for="(card, index) in cardsSuit.queen"
                         :key="index"
@@ -179,14 +105,14 @@
                         :card="card" 
                         :index="index + 1" 
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.queen.length) }}</span>
+                    <span class="extra-cards-counter flex-row align-center">{{ extraCards(cardsSuit.queen.length) }}</span>
                 </div>
             </div>
             <div v-if="cardsSuit.king.length">
-                <div class="card-probability">
+                <div class="text-right probability-label">
                     {{ suitProb(cardsSuit.king.length) }}
                 </div>
-                <div class="card-container">
+                <div class="card-container flex-row">
                     <app-card 
                         v-for="(card, index) in cardsSuit.king"
                         :key="index"
@@ -194,9 +120,10 @@
                         :card="card" 
                         :index="index + 1"
                     />
-                    <span class="extra-cards-counter">{{ extraCards(cardsSuit.king.length) }}</span>
+                    <span class="extra-cards-counter flex-row align-center">{{ extraCards(cardsSuit.king.length) }}</span>
                 </div>
             </div>
+            -->
         </div>
     </div>
 </template>
@@ -220,7 +147,8 @@ export default {
                 ten: [],
                 jack: [],
                 queen: [],
-                king: []
+                king: [],
+                worthTen: []
             }
         }
     },
@@ -234,10 +162,8 @@ export default {
         },
         extraCards(suitAmount) {
             return suitAmount > 4 ? `+${suitAmount - 4}` : null;
-        }
-    },
-    watch: {
-        dealersShoeLength() {
+        },
+        clearCardsSuit() {
             this.cardsSuit = {
                 ace: [],
                 two: [],
@@ -251,8 +177,14 @@ export default {
                 ten: [],
                 jack: [],
                 queen: [],
-                king: []        
+                king: [],
+                worthTen: []        
             }
+        },
+    },
+    watch: {
+        dealersShoeLength() {
+            this.clearCardsSuit();
 
             this.dealersShoe.forEach((card) => {
                 switch(card) {
@@ -285,15 +217,19 @@ export default {
                         break;
                     case '10':
                         this.cardsSuit.ten.push(card);
+                        this.cardsSuit.worthTen.push(card);
                         break;
                     case 'Jack':
                         this.cardsSuit.jack.push(card);
+                        this.cardsSuit.worthTen.push(card);
                         break;
                     case 'Queen':
                         this.cardsSuit.queen.push(card);
+                        this.cardsSuit.worthTen.push(card);
                         break;
                     case 'King':
                         this.cardsSuit.king.push(card);
+                        this.cardsSuit.worthTen.push(card);
                 }
             })
         },
@@ -302,40 +238,50 @@ export default {
 </script>
 
 <style scoped>
-    .container {
-        display: flex;
-        flex-direction: column;
-    }
-
     .card-container {
-        display: flex;
-        width: 115px;
-    }
-
-    .app-card:nth-child(2),
-    .app-card:nth-child(3),
-    .app-card:nth-child(4),
-    .extra-cards-counter {
+        width: 115px;   
         position: relative;
     }
 
+    .cards-group {
+        position: relative;
+        right: 85px;
+    }
+
+    .probability-label {
+        position: relative;
+        left: 85px;
+    }
+
+    .right-16 {
+        right: 16px;
+    }
+
+    .right-24 {
+        right: 24px;
+    }
+
+    .extra-cards-counter,
+    .app-card:nth-child(2),
+    .app-card:nth-child(3),
+    .app-card:nth-child(4) {
+        position: relative;
+    }
+
+    .extra-cards-counter,
     .app-card:nth-child(2) {
-        right: 40px;
+        left: 120px;
+        z-index: 3;
     }
 
     .app-card:nth-child(3) {
-        right: 80px;
+        left: 80px;
+        z-index: 2;
     }
 
-    .app-card:nth-child(4),
-    .extra-cards-counter {
-        right: 120px;
+    .app-card:nth-child(4) {
+        left: 40px;
+        z-index: 1;
     }
 
-    span {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-    }
 </style>

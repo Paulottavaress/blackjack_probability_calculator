@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div class="flex-column text-center">
         <div>
-            The sum of your cards is: {{ handSum }} ({{ playerHandStatus }})
+            Sum of your cards: {{ handSum }} ({{ playerHandStatus }})
         </div>
-        <div class="card-container">
+        <div class="flex-row justify-center">
             <app-card
                 v-for="(card, index) in playersHand"
                 :key="index"
@@ -88,7 +88,6 @@ export default {
                     this.playersHandSum += 11;
                     this.playersHandValue.push(11);
                 }
-                console.log('playersHandValue', this.playersHandValue);
             }    
         }
     }
@@ -96,16 +95,6 @@ export default {
 </script>
 
 <style scoped>
-    .container {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .card-container {
-        display: flex;
-    }
-
     .app-card:nth-child(2),
     .app-card:nth-child(3),
     .app-card:nth-child(4),
