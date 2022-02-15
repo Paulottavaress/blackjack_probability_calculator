@@ -1,9 +1,9 @@
 <template>
-    <div class="flex-column text-center align-center center-left absolute quarter-bottom">
+    <div class="flex-column text-center">
         <div>
             Sum of your cards: {{ handSum }} ({{ playerHandStatus }})
         </div>
-        <div class="flex-row">
+        <div class="flex-row justify-center">
             <app-card
                 v-for="(card, index) in playersHand"
                 :key="index"

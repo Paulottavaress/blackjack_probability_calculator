@@ -115,6 +115,14 @@ export default {
     align-items: flex-end;
   }
 
+  .self-justify-end {
+    justify-self: flex-end;
+  }
+
+  .self-align-end {
+    align-self: flex-end;
+  }
+
   .self-align-center {
       align-self: center;
   }

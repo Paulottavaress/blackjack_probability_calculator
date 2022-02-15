@@ -1,9 +1,9 @@
 <template>
-    <div class="flex-column text-center align-center absolute zero-top center-left">
+    <div class="flex-column text-center">
         <div>
             Dealer's opening card: {{ dealersHand[0] }}
         </div>
-        <div class="flex-row">
+        <div class="flex-row  justify-center">
             <app-card
                 v-for="(card, index) in dealersHand"
                 :key="index"

@@ -1,7 +1,7 @@
 <template>
     <div v-if="index <= 4 || !index" class="card flex-row dark-color">
-        <div class="top">{{ card.length >= 3 ? card : `${card}____` }}</div>
-        <div class="bottom flex-row justify-end align-end">{{ card.length >= 3 ? card : `____${card}` }}</div>
+        <div class="top">{{ card }}</div>
+        <div class="bottom flex-row justify-end align-end">{{ card }}</div>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 <style scoped>
     .card {
         height: 100px;
-        width: 50px;
+        min-width: 50px;
         border: 1px black solid;
         border-radius: 5px;
         background: white;

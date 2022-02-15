@@ -1,5 +1,5 @@
 <template>
-    <div v-if="dealersShoe.length">
+    <div v-if="dealersShoe.length" class="self-align-center">
     <h5>Dealers Shoe Left</h5>
         <div v-if="cardsSuit.ace.length">
             <div class="card-probability">

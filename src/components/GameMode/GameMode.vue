@@ -1,29 +1,31 @@
 <template>
     <div class="full-width full-height relative bg-table light-color flex-row self-align-center max-width-xl pa-md">
         <app-dealers-shoe-left :dealersShoe="dealersShoe" :dealersShoeLength="dealersShoeLength" />
-        <app-dealers-hand v-if="isGameRunning" :dealersHand="dealersHand" />
-        <app-players-hand v-if="isGameRunning" :playersHand="playersHand" />
-        <div class="flex-column full-width absolute zero-bottom">
-            <div v-if="!isGameRunning" class="flex-row text-center justify-center">
-                <p>Insert the number of decks you will be playing with:</p>
-                <input type="number" v-model="numberOfDecks">
-                <button @click="startGame">START GAME</button>
-            </div>
-            <div v-else class="flex-row text-center justify-center">
-                <div>
-                    <p>Dealer's opening card:</p>
-                    <input type="string" v-model="openingCard">
-                    <button @click="addSuitToHand('dealer', openingCard)">ADD TO DEALER'S</button>
+        <div class="flex-column full-width align-center">
+            <app-dealers-hand v-if="isGameRunning" :dealersHand="dealersHand" />
+            <div class="flex-column justify-end full-height">
+                <app-players-hand v-if="isGameRunning" :playersHand="playersHand" />
+                <div v-if="isGameRunning" class="flex-row text-center justify-center self-align-end">
+                    <div class="flex-column">
+                        <p>Dealer's opening card:</p>
+                        <input type="string" v-model="suitToDealersHand">
+                        <button @click="addSuitToHand('dealer', suitToDealersHand)">ADD TO DEALER'S</button>
+                    </div>
+                    <div class="flex-column">
+                        <p>Your hand:</p>
+                        <input type="string" v-model="suitToPlayersHand">
+                        <button @click="addSuitToHand('player', suitToPlayersHand)">ADD TO PLAYER'S</button>
+                    </div>
+                    <div class="flex-column">
+                        <p>Remove suit from the dealer's shoe:</p>
+                        <input type="string" v-model="suitToBeRemoved">
+                        <button @click="removeSuit(suitToBeRemoved)">POP SUIT</button>
+                    </div>
                 </div>
-                <div>
-                    <p>Your hand:</p>
-                    <input type="string" v-model="suitToPlayersHand">
-                    <button @click="addSuitToHand('player', suitToPlayersHand)">ADD TO PLAYER'S</button>
-                </div>
-                <div>
-                    <p>Remove suit from the dealer's shoe:</p>
-                    <input type="string" v-model="suitToBeRemoved">
-                    <button @click="removeSuit(suitToBeRemoved)">POP SUIT</button>
+                <div v-else class="flex-column text-center justify-center full-height">
+                    <p>Insert the number of decks you will be playing with:</p>
+                    <input type="number" v-model="numberOfDecks">
+                    <button @click="startGame">START GAME</button>
                 </div>
             </div>
         </div>
@@ -50,8 +52,9 @@ export default {
             playersHand: [],
             suitToPlayersHand: '',
             dealersHand: [],
-            openingCard: ''
+            suitToDealersHand: ''
         }
+        // dealersHand[0], playersHandValue, playersHandSum
     },
     components: {
         'app-dealers-shoe-left': DealersShoeLeft,
@@ -81,6 +84,9 @@ export default {
         },
         removeSuit(suit) {
             const index = this.dealersShoe.indexOf(this.formatInput(suit));
+            console.log('index', index);
+            const index2 = this.dealersShoe.lastIndexOf(this.formatInput(suit));
+            console.log('index2', index2);
 
             if (index > -1) {
                 this.dealersShoe.splice(index, 1);
